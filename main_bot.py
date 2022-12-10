@@ -5,6 +5,7 @@ import yaml
 import bollsvenskan as bs
 
 intents = discord.Intents.default()
+# on_reaction_remove needs all users in the cache, this also need to be enabled in the developer settings portal 
 intents.members = True
 
 CLIENT = commands.Bot(command_prefix="!", intents=intents)
@@ -22,17 +23,15 @@ def initConfig():
         TOKEN = y["TOKEN"]
         CHANNEL_ID = y["CHANNEL_ID"]
 
-        print(CHANNEL_ID)
-
 @CLIENT.event
 async def on_ready():
     global MESSAGE_ID
     
-    print(f"{CLIENT.user} Bois, I'm in")
-    
     channel = CLIENT.get_channel(CHANNEL_ID)
     message = await channel.send("```ansi\n" + bs.BollSvenskan().getList() + "```")
     MESSAGE_ID = message.id
+    with open('/bin/config.yaml', 'a') as f:
+        f.write("\nMESSAGE_ID: " + str(MESSAGE_ID))
 
     [await message.add_reaction(emoji) for emoji in EMOJIS]
 
@@ -60,3 +59,9 @@ async def TOKEN(ctx):
     print(bs.BollSvenskan.tokenPairs, author.name)
     
     await author.send(bs.BollSvenskan.tokenPairs[author.name] if author.name in bs.BollSvenskan.tokenPairs else "You haven't signed up using me.")
+
+if __name__ == "__main__":
+    print("running main_bot.py")
+
+    initConfig()
+    CLIENT.run(TOKEN)

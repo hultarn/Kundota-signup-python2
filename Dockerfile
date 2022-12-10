@@ -9,14 +9,19 @@ COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN python -m pip install -r requirements.txt
 
-COPY main.py /bin/main.py
-COPY bot.py /bin/bot.py
+COPY main_bot.py /bin/main_bot.py
+COPY main_delete_reactions.py /bin/main_delete_reactions.py
+COPY main_poll.py /bin/main_poll.py
 COPY bollsvenskan.py /bin/bollsvenskan.py
-COPY config.yaml /bin
+COPY config.yaml /bin/config.yaml
 
 COPY root /var/spool/cron/crontabs/root
 
-# Give execution rights on the cron job
-RUN chmod +x /bin/main.py
+# Give execution rights
+RUN chmod +x /bin/main_bot.py
+RUN chmod +x /bin/main_delete_reactions.py
+RUN chmod +x /bin/main_poll.py
 
-CMD crond -l 2 -f
+WORKDIR /bin
+
+CMD ["python", "main_bot.py"];crond -l 2 -f
