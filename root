@@ -1,1 +1,4 @@
+# Run immediately on startup. Convenient when you want to test right as the
+# container start up.
+@reboot python3 /bin/main.py
 */1 * * * * python3 /bin/main.py
