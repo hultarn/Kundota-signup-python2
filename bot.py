@@ -17,7 +17,7 @@ TOKEN = None
 def initConfig():
     global TOKEN, CHANNEL_ID
 
-    with open('config.yaml') as f:
+    with open('/bin/config.yaml') as f:
         y = yaml.load(f, Loader=yaml.FullLoader)
         TOKEN = y["TOKEN"]
         CHANNEL_ID = y["CHANNEL_ID"]
