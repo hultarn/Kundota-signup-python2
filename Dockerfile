@@ -1,8 +1,11 @@
-# FROM --platform=linux/arm/v7 python:3.9.0b4-alpine3.12
-FROM python:3.9.0b4-alpine3.12
+FROM --platform=linux/arm/v7 python:3.9.0b4-alpine3.12
+# FROM python:3.9.0b4-alpine3.12
 
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED=1
+
+# Install C/C++ build tools
+RUN apk add g++
 
 # Install pip requirements
 COPY requirements.txt .
